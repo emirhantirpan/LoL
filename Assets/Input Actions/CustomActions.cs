@@ -35,6 +35,51 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Stop"",
+                    ""type"": ""Button"",
+                    ""id"": ""e32a4518-d530-4ea3-b850-0069c3c9d9ee"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Q_Skill"",
+                    ""type"": ""Button"",
+                    ""id"": ""1db10ead-2cea-467d-904a-a0459468b041"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""W_Skill"",
+                    ""type"": ""Button"",
+                    ""id"": ""f63eed92-e84e-410d-b41c-08eb7b249574"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""R_Skill"",
+                    ""type"": ""Button"",
+                    ""id"": ""5520c7a9-52b5-4eb8-bf6c-8902c4caa7b5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Ward"",
+                    ""type"": ""Button"",
+                    ""id"": ""00c466dd-2f16-4fb2-b852-c74c4f4bab52"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -48,6 +93,61 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""087021e3-5a05-4f95-9d3b-390f9f47c756"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Stop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""74d4d60d-a012-47f7-9f8b-53f0f3936735"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""W_Skill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""de907d4f-e04a-4c8e-b41b-e63ec501347e"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Q_Skill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e6f80f8a-8f4a-439f-b137-48a0c603bc1a"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""R_Skill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2d235bf3-24d2-48a3-80cc-e710da045ff7"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ward"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -57,6 +157,11 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
         // Main
         m_Main = asset.FindActionMap("Main", throwIfNotFound: true);
         m_Main_Move = m_Main.FindAction("Move", throwIfNotFound: true);
+        m_Main_Stop = m_Main.FindAction("Stop", throwIfNotFound: true);
+        m_Main_Q_Skill = m_Main.FindAction("Q_Skill", throwIfNotFound: true);
+        m_Main_W_Skill = m_Main.FindAction("W_Skill", throwIfNotFound: true);
+        m_Main_R_Skill = m_Main.FindAction("R_Skill", throwIfNotFound: true);
+        m_Main_Ward = m_Main.FindAction("Ward", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -119,11 +224,21 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Main;
     private List<IMainActions> m_MainActionsCallbackInterfaces = new List<IMainActions>();
     private readonly InputAction m_Main_Move;
+    private readonly InputAction m_Main_Stop;
+    private readonly InputAction m_Main_Q_Skill;
+    private readonly InputAction m_Main_W_Skill;
+    private readonly InputAction m_Main_R_Skill;
+    private readonly InputAction m_Main_Ward;
     public struct MainActions
     {
         private @CustomActions m_Wrapper;
         public MainActions(@CustomActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Main_Move;
+        public InputAction @Stop => m_Wrapper.m_Main_Stop;
+        public InputAction @Q_Skill => m_Wrapper.m_Main_Q_Skill;
+        public InputAction @W_Skill => m_Wrapper.m_Main_W_Skill;
+        public InputAction @R_Skill => m_Wrapper.m_Main_R_Skill;
+        public InputAction @Ward => m_Wrapper.m_Main_Ward;
         public InputActionMap Get() { return m_Wrapper.m_Main; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -136,6 +251,21 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @Stop.started += instance.OnStop;
+            @Stop.performed += instance.OnStop;
+            @Stop.canceled += instance.OnStop;
+            @Q_Skill.started += instance.OnQ_Skill;
+            @Q_Skill.performed += instance.OnQ_Skill;
+            @Q_Skill.canceled += instance.OnQ_Skill;
+            @W_Skill.started += instance.OnW_Skill;
+            @W_Skill.performed += instance.OnW_Skill;
+            @W_Skill.canceled += instance.OnW_Skill;
+            @R_Skill.started += instance.OnR_Skill;
+            @R_Skill.performed += instance.OnR_Skill;
+            @R_Skill.canceled += instance.OnR_Skill;
+            @Ward.started += instance.OnWard;
+            @Ward.performed += instance.OnWard;
+            @Ward.canceled += instance.OnWard;
         }
 
         private void UnregisterCallbacks(IMainActions instance)
@@ -143,6 +273,21 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @Stop.started -= instance.OnStop;
+            @Stop.performed -= instance.OnStop;
+            @Stop.canceled -= instance.OnStop;
+            @Q_Skill.started -= instance.OnQ_Skill;
+            @Q_Skill.performed -= instance.OnQ_Skill;
+            @Q_Skill.canceled -= instance.OnQ_Skill;
+            @W_Skill.started -= instance.OnW_Skill;
+            @W_Skill.performed -= instance.OnW_Skill;
+            @W_Skill.canceled -= instance.OnW_Skill;
+            @R_Skill.started -= instance.OnR_Skill;
+            @R_Skill.performed -= instance.OnR_Skill;
+            @R_Skill.canceled -= instance.OnR_Skill;
+            @Ward.started -= instance.OnWard;
+            @Ward.performed -= instance.OnWard;
+            @Ward.canceled -= instance.OnWard;
         }
 
         public void RemoveCallbacks(IMainActions instance)
@@ -163,5 +308,10 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
     public interface IMainActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnStop(InputAction.CallbackContext context);
+        void OnQ_Skill(InputAction.CallbackContext context);
+        void OnW_Skill(InputAction.CallbackContext context);
+        void OnR_Skill(InputAction.CallbackContext context);
+        void OnWard(InputAction.CallbackContext context);
     }
 }

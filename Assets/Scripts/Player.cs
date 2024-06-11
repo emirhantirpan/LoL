@@ -10,17 +10,23 @@ public class Player : MonoBehaviour
 {
     const string Idle = "Idle";
     const string Run = "Run";
+    const string WSkill = "WSkill";
+    const string RSkill = "RSkill";
 
     private CustomActions _input;
     private NavMeshAgent _agent;
     private Animator _anim;
     private float _lookRotationSpeed = 8f;
     private float _jumpSpeed = 8f;
+    private float _pushForce = 8f;
+    private float _pullForce = 5f;
+    private bool _isDashing = false;
 
     [SerializeField] private ParticleSystem _clickEffect;
     [SerializeField] private LayerMask _clickableLayers;
     [SerializeField] private GameObject _ward;
     [SerializeField] private GameObject _player;
+    [SerializeField] private GameObject _enemy;
 
     private void Awake()
     {
@@ -59,7 +65,22 @@ public class Player : MonoBehaviour
     }
     private void SkillQ()
     {
+        Vector2 mousePosition = Mouse.current.position.ReadValue();
+        Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+        RaycastHit hit;
+        _agent.isStopped = true;
 
+        if (Physics.Raycast(ray, out hit))
+        {
+            Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                Vector3 pushDirection = _player.transform.position - hit.point;
+                pushDirection.Normalize();
+                rb.AddForce(pushDirection * _pullForce, ForceMode.Impulse);
+            }
+        }
+        _agent.isStopped = false;
     }
     private void SkillW()
     {
@@ -77,7 +98,22 @@ public class Player : MonoBehaviour
     }
     private void SkillR()
     {
+        Vector2 mousePosition = Mouse.current.position.ReadValue();
+        Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+        RaycastHit hit;
+        _agent.isStopped = true;
 
+        if (Physics.Raycast(ray, out hit))
+        {
+            Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                Vector3 pushDirection = hit.point - _player.transform.position;
+                pushDirection.Normalize();
+                rb.AddForce(pushDirection * _pushForce, ForceMode.Impulse);
+            }
+        }
+        _agent.isStopped = false;
     }
     private void Ward()
     {
@@ -122,10 +158,19 @@ public class Player : MonoBehaviour
         {
             _anim.Play(Run);
         }
+        if (_isDashing == true)
+        {
+            _anim.Play(WSkill);
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            _anim.Play(RSkill);
+        }
     }
     private IEnumerator MovePlayerToPosition(Vector3 targetPosition)
     {
         _agent.isStopped = true;
+        _isDashing = true;
         Vector3 startPosition = _player.transform.position;
         float lastTime = 0f;
         while (lastTime < 1f)
@@ -135,6 +180,6 @@ public class Player : MonoBehaviour
             yield return null;
         }
         _player.transform.position = targetPosition;
-
+        _isDashing = false;
     }
 }

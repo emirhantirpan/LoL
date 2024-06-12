@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - Ward
   - Enemy
+  - SomethingElse
   layers:
   - Default
   - TransparentFX

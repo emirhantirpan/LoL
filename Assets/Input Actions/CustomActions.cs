@@ -64,6 +64,15 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""E_Skill"",
+                    ""type"": ""Button"",
+                    ""id"": ""426c509d-83b9-4492-8394-bdfd8543d14f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""R_Skill"",
                     ""type"": ""Button"",
                     ""id"": ""5520c7a9-52b5-4eb8-bf6c-8902c4caa7b5"",
@@ -76,6 +85,15 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
                     ""name"": ""Ward"",
                     ""type"": ""Button"",
                     ""id"": ""00c466dd-2f16-4fb2-b852-c74c4f4bab52"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Flash"",
+                    ""type"": ""Button"",
+                    ""id"": ""f8ff0507-9dce-46c8-a992-4394984d8c5e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -148,6 +166,28 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
                     ""action"": ""Ward"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""00a279be-e9e9-4021-9bf0-8985ae8eba2d"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""E_Skill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b88e28ec-be4b-4f68-8cc8-e3f11733e410"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Flash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -160,8 +200,10 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
         m_Main_Stop = m_Main.FindAction("Stop", throwIfNotFound: true);
         m_Main_Q_Skill = m_Main.FindAction("Q_Skill", throwIfNotFound: true);
         m_Main_W_Skill = m_Main.FindAction("W_Skill", throwIfNotFound: true);
+        m_Main_E_Skill = m_Main.FindAction("E_Skill", throwIfNotFound: true);
         m_Main_R_Skill = m_Main.FindAction("R_Skill", throwIfNotFound: true);
         m_Main_Ward = m_Main.FindAction("Ward", throwIfNotFound: true);
+        m_Main_Flash = m_Main.FindAction("Flash", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -227,8 +269,10 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Main_Stop;
     private readonly InputAction m_Main_Q_Skill;
     private readonly InputAction m_Main_W_Skill;
+    private readonly InputAction m_Main_E_Skill;
     private readonly InputAction m_Main_R_Skill;
     private readonly InputAction m_Main_Ward;
+    private readonly InputAction m_Main_Flash;
     public struct MainActions
     {
         private @CustomActions m_Wrapper;
@@ -237,8 +281,10 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
         public InputAction @Stop => m_Wrapper.m_Main_Stop;
         public InputAction @Q_Skill => m_Wrapper.m_Main_Q_Skill;
         public InputAction @W_Skill => m_Wrapper.m_Main_W_Skill;
+        public InputAction @E_Skill => m_Wrapper.m_Main_E_Skill;
         public InputAction @R_Skill => m_Wrapper.m_Main_R_Skill;
         public InputAction @Ward => m_Wrapper.m_Main_Ward;
+        public InputAction @Flash => m_Wrapper.m_Main_Flash;
         public InputActionMap Get() { return m_Wrapper.m_Main; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -260,12 +306,18 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
             @W_Skill.started += instance.OnW_Skill;
             @W_Skill.performed += instance.OnW_Skill;
             @W_Skill.canceled += instance.OnW_Skill;
+            @E_Skill.started += instance.OnE_Skill;
+            @E_Skill.performed += instance.OnE_Skill;
+            @E_Skill.canceled += instance.OnE_Skill;
             @R_Skill.started += instance.OnR_Skill;
             @R_Skill.performed += instance.OnR_Skill;
             @R_Skill.canceled += instance.OnR_Skill;
             @Ward.started += instance.OnWard;
             @Ward.performed += instance.OnWard;
             @Ward.canceled += instance.OnWard;
+            @Flash.started += instance.OnFlash;
+            @Flash.performed += instance.OnFlash;
+            @Flash.canceled += instance.OnFlash;
         }
 
         private void UnregisterCallbacks(IMainActions instance)
@@ -282,12 +334,18 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
             @W_Skill.started -= instance.OnW_Skill;
             @W_Skill.performed -= instance.OnW_Skill;
             @W_Skill.canceled -= instance.OnW_Skill;
+            @E_Skill.started -= instance.OnE_Skill;
+            @E_Skill.performed -= instance.OnE_Skill;
+            @E_Skill.canceled -= instance.OnE_Skill;
             @R_Skill.started -= instance.OnR_Skill;
             @R_Skill.performed -= instance.OnR_Skill;
             @R_Skill.canceled -= instance.OnR_Skill;
             @Ward.started -= instance.OnWard;
             @Ward.performed -= instance.OnWard;
             @Ward.canceled -= instance.OnWard;
+            @Flash.started -= instance.OnFlash;
+            @Flash.performed -= instance.OnFlash;
+            @Flash.canceled -= instance.OnFlash;
         }
 
         public void RemoveCallbacks(IMainActions instance)
@@ -311,7 +369,9 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
         void OnStop(InputAction.CallbackContext context);
         void OnQ_Skill(InputAction.CallbackContext context);
         void OnW_Skill(InputAction.CallbackContext context);
+        void OnE_Skill(InputAction.CallbackContext context);
         void OnR_Skill(InputAction.CallbackContext context);
         void OnWard(InputAction.CallbackContext context);
+        void OnFlash(InputAction.CallbackContext context);
     }
 }

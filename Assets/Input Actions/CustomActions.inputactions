@@ -42,6 +42,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "E_Skill",
+                    "type": "Button",
+                    "id": "426c509d-83b9-4492-8394-bdfd8543d14f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "R_Skill",
                     "type": "Button",
                     "id": "5520c7a9-52b5-4eb8-bf6c-8902c4caa7b5",
@@ -54,6 +63,15 @@
                     "name": "Ward",
                     "type": "Button",
                     "id": "00c466dd-2f16-4fb2-b852-c74c4f4bab52",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Flash",
+                    "type": "Button",
+                    "id": "f8ff0507-9dce-46c8-a992-4394984d8c5e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -124,6 +142,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Ward",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "00a279be-e9e9-4021-9bf0-8985ae8eba2d",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "E_Skill",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b88e28ec-be4b-4f68-8cc8-e3f11733e410",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Flash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

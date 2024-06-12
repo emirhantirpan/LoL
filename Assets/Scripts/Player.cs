@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _ward;
     [SerializeField] private GameObject _player;
     [SerializeField] private GameObject _enemy;
+    [SerializeField] private GameObject _skillQ;
+    [SerializeField] private Transform _spawnPoint;
 
     private void Awake()
     {
@@ -42,8 +44,10 @@ public class Player : MonoBehaviour
         _input.Main.Stop.performed += ctx => StopMove();
         _input.Main.Q_Skill.performed += ctx => SkillQ();
         _input.Main.W_Skill.performed += ctx => SkillW();
+        _input.Main.E_Skill.performed += ctx => SkillE();
         _input.Main.R_Skill.performed += ctx => SkillR();
         _input.Main.Ward.performed += ctx => Ward();
+        _input.Main.Flash.performed += ctx => Flash();
     }
     private void ClickToMove()
     {
@@ -68,19 +72,11 @@ public class Player : MonoBehaviour
         Vector2 mousePosition = Mouse.current.position.ReadValue();
         Ray ray = Camera.main.ScreenPointToRay(mousePosition);
         RaycastHit hit;
-        _agent.isStopped = true;
 
         if (Physics.Raycast(ray, out hit))
         {
-            Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                Vector3 pushDirection = _player.transform.position - hit.point;
-                pushDirection.Normalize();
-                rb.AddForce(pushDirection * _pullForce, ForceMode.Impulse);
-            }
+            Instantiate(_skillQ, _spawnPoint.position, _spawnPoint.rotation);
         }
-        _agent.isStopped = false;
     }
     private void SkillW()
     {
@@ -95,6 +91,25 @@ public class Player : MonoBehaviour
                 StartCoroutine(MovePlayerToPosition(hit.point));
             }
         }
+    }
+    private void SkillE()
+    {
+        Vector2 mousePosition = Mouse.current.position.ReadValue();
+        Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+        RaycastHit hit;
+        _agent.isStopped = true;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                Vector3 pushDirection = _player.transform.position - hit.point;
+                pushDirection.Normalize();
+                rb.AddForce(pushDirection * _pullForce, ForceMode.Impulse);
+            }
+        }
+        _agent.isStopped = false;
     }
     private void SkillR()
     {
@@ -128,6 +143,10 @@ public class Player : MonoBehaviour
                 Instantiate(_ward, hit.point, Quaternion.identity);
             }
         }
+    }
+    private void Flash()
+    {
+
     }
     private void OnEnable()
     {

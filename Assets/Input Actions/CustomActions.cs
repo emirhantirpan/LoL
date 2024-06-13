@@ -98,6 +98,15 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""P_Market"",
+                    ""type"": ""Button"",
+                    ""id"": ""a33a0340-3988-4c49-a6ae-a627ca1e8e09"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -188,6 +197,17 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
                     ""action"": ""Flash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e726b128-34e2-4821-86fa-62b8f7f3aff3"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""P_Market"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -204,6 +224,7 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
         m_Main_R_Skill = m_Main.FindAction("R_Skill", throwIfNotFound: true);
         m_Main_Ward = m_Main.FindAction("Ward", throwIfNotFound: true);
         m_Main_Flash = m_Main.FindAction("Flash", throwIfNotFound: true);
+        m_Main_P_Market = m_Main.FindAction("P_Market", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -273,6 +294,7 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Main_R_Skill;
     private readonly InputAction m_Main_Ward;
     private readonly InputAction m_Main_Flash;
+    private readonly InputAction m_Main_P_Market;
     public struct MainActions
     {
         private @CustomActions m_Wrapper;
@@ -285,6 +307,7 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
         public InputAction @R_Skill => m_Wrapper.m_Main_R_Skill;
         public InputAction @Ward => m_Wrapper.m_Main_Ward;
         public InputAction @Flash => m_Wrapper.m_Main_Flash;
+        public InputAction @P_Market => m_Wrapper.m_Main_P_Market;
         public InputActionMap Get() { return m_Wrapper.m_Main; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -318,6 +341,9 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
             @Flash.started += instance.OnFlash;
             @Flash.performed += instance.OnFlash;
             @Flash.canceled += instance.OnFlash;
+            @P_Market.started += instance.OnP_Market;
+            @P_Market.performed += instance.OnP_Market;
+            @P_Market.canceled += instance.OnP_Market;
         }
 
         private void UnregisterCallbacks(IMainActions instance)
@@ -346,6 +372,9 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
             @Flash.started -= instance.OnFlash;
             @Flash.performed -= instance.OnFlash;
             @Flash.canceled -= instance.OnFlash;
+            @P_Market.started -= instance.OnP_Market;
+            @P_Market.performed -= instance.OnP_Market;
+            @P_Market.canceled -= instance.OnP_Market;
         }
 
         public void RemoveCallbacks(IMainActions instance)
@@ -373,5 +402,6 @@ public partial class @CustomActions: IInputActionCollection2, IDisposable
         void OnR_Skill(InputAction.CallbackContext context);
         void OnWard(InputAction.CallbackContext context);
         void OnFlash(InputAction.CallbackContext context);
+        void OnP_Market(InputAction.CallbackContext context);
     }
 }

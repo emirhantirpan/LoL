@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkillShot : MonoBehaviour
 {
-    private float _speed = 10f;
+    private float _speed = 20f;
     private float _maxDistance = 20f;
     private Vector3 _startPosition;
     private Rigidbody _rb;

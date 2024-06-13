@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     private float _pushForce = 8f;
     private float _pullForce = 5f;
     private bool _isDashing = false;
+    private float _flashDistance = 5f;
 
     [SerializeField] private ParticleSystem _clickEffect;
     [SerializeField] private LayerMask _clickableLayers;
@@ -48,6 +49,7 @@ public class Player : MonoBehaviour
         _input.Main.R_Skill.performed += ctx => SkillR();
         _input.Main.Ward.performed += ctx => Ward();
         _input.Main.Flash.performed += ctx => Flash();
+        _input.Main.P_Market.performed += ctx => Market();
     }
     private void ClickToMove()
     {
@@ -104,9 +106,9 @@ public class Player : MonoBehaviour
             Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                Vector3 pushDirection = _player.transform.position - hit.point;
-                pushDirection.Normalize();
-                rb.AddForce(pushDirection * _pullForce, ForceMode.Impulse);
+                Vector3 pullDirection = _player.transform.position - hit.point;
+                pullDirection.Normalize();
+                rb.AddForce(pullDirection * _pullForce, ForceMode.Impulse);
             }
         }
         _agent.isStopped = false;
@@ -145,6 +147,20 @@ public class Player : MonoBehaviour
         }
     }
     private void Flash()
+    {
+        Vector2 mousePosition = Mouse.current.position.ReadValue();
+        Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            Vector3 targerPoint = hit.point;
+            Vector3 direction = (targerPoint - transform.position).normalized;
+            Vector3 newPosition = transform.position + direction * _flashDistance;
+            transform.position = newPosition;
+        }
+    }
+    private void Market()
     {
 
     }

@@ -9,6 +9,7 @@ TagManager:
   - Ward
   - Enemy
   - SomethingElse
+  - Market
   layers:
   - Default
   - TransparentFX

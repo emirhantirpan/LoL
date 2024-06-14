@@ -13,15 +13,18 @@ public class Player : MonoBehaviour
     const string WSkill = "WSkill";
     const string RSkill = "RSkill";
 
+    public bool _isInside = false;
+    public float pushForce = 8f;
+
     private CustomActions _input;
     private NavMeshAgent _agent;
     private Animator _anim;
     private float _lookRotationSpeed = 8f;
     private float _jumpSpeed = 8f;
-    private float _pushForce = 8f;
     private float _pullForce = 5f;
     private bool _isDashing = false;
     private float _flashDistance = 5f;
+    private bool _valueChanged = false;
 
     [SerializeField] private ParticleSystem _clickEffect;
     [SerializeField] private LayerMask _clickableLayers;
@@ -30,6 +33,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _enemy;
     [SerializeField] private GameObject _skillQ;
     [SerializeField] private Transform _spawnPoint;
+    [SerializeField] private MarketManager _marketManager;
 
     private void Awake()
     {
@@ -127,7 +131,7 @@ public class Player : MonoBehaviour
             {
                 Vector3 pushDirection = hit.point - _player.transform.position;
                 pushDirection.Normalize();
-                rb.AddForce(pushDirection * _pushForce, ForceMode.Impulse);
+                rb.AddForce(pushDirection * pushForce, ForceMode.Impulse);
             }
         }
         _agent.isStopped = false;
@@ -162,7 +166,7 @@ public class Player : MonoBehaviour
     }
     private void Market()
     {
-
+        _marketManager.MarketPanel();
     }
     private void OnEnable()
     {
@@ -176,6 +180,7 @@ public class Player : MonoBehaviour
     {
         FaceTarget();
         SetAnimations();
+        Items();
     }
     private void FaceTarget()
     {
@@ -216,5 +221,27 @@ public class Player : MonoBehaviour
         }
         _player.transform.position = targetPosition;
         _isDashing = false;
+    }
+    private void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.CompareTag("Market"))
+        {
+            _isInside = true;
+        }
+    }
+    private void OnTriggerExit(Collider col)
+    {
+        if (col.gameObject.CompareTag("Market"))
+        {
+            _isInside = false;
+        }
+    }
+    private void Items()
+    {
+        if (_marketManager._doesAxeOfKratosHave == true && _valueChanged == false)
+        {
+            pushForce += 10 * pushForce / 100;
+            _valueChanged = true;
+        }
     }
 }

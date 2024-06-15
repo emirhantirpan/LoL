@@ -15,16 +15,17 @@ public class Player : MonoBehaviour
 
     public bool _isInside = false;
     public float pushForce = 8f;
+    public float pullForce = 5f;
 
     private CustomActions _input;
     private NavMeshAgent _agent;
     private Animator _anim;
     private float _lookRotationSpeed = 8f;
     private float _jumpSpeed = 8f;
-    private float _pullForce = 5f;
     private bool _isDashing = false;
     private float _flashDistance = 5f;
-    private bool _valueChanged = false;
+    public bool valueChangedAxe = false;
+    public bool valueChangedBlade = false;
 
     [SerializeField] private ParticleSystem _clickEffect;
     [SerializeField] private LayerMask _clickableLayers;
@@ -112,7 +113,7 @@ public class Player : MonoBehaviour
             {
                 Vector3 pullDirection = _player.transform.position - hit.point;
                 pullDirection.Normalize();
-                rb.AddForce(pullDirection * _pullForce, ForceMode.Impulse);
+                rb.AddForce(pullDirection * pullForce, ForceMode.Impulse);
             }
         }
         _agent.isStopped = false;
@@ -236,12 +237,23 @@ public class Player : MonoBehaviour
             _isInside = false;
         }
     }
+
     private void Items()
     {
-        if (_marketManager._doesAxeOfKratosHave == true && _valueChanged == false)
+        if (_marketManager.doesLevithanAxeHave == true && valueChangedAxe == false)
         {
             pushForce += 10 * pushForce / 100;
-            _valueChanged = true;
+            valueChangedAxe = true;
+        }
+        else if (_marketManager.doesLevithanAxeHave == false && valueChangedAxe == true) 
+        {
+            pushForce -= 10 * pushForce / 100;
+            valueChangedAxe = false;
+        }
+        if (_marketManager.doesAssassinBladeHave == true && valueChangedBlade == false)
+        {
+            pullForce += 15 * pullForce / 100;
+            valueChangedBlade = true;
         }
     }
 }
